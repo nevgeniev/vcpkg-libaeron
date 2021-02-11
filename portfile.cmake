@@ -1,0 +1,20 @@
+vcpkg_from_github(
+	OUT_SOURCE_PATH SOURCE_PATH
+	REPO real-logic/aeron
+	REF 1.32.0
+	SHA512 48add4efa57ec5f08cfabd792b841a7fee9d2170c4e2ef8c6dda6e4a411a6bc32cad0708e47f08c4e0db5956cee7e9c9d30244a69199057089240fb08f64957e
+	HEAD_REF master
+)
+
+vcpkg_configure_cmake(
+	SOURCE_PATH ${SOURCE_PATH}
+	OPTIONS
+		-DBUILD_AERON_DRIVER=OFF
+		-DBUILD_AERON_ARCHIVE_API=OFF
+		-DAERON_TESTS=OFF
+		-DAERON_BUILD_SAMPLES=OFF	
+)
+
+vcpkg_install_cmake()
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+configure_file("${SOURCE_PATH}/LICENSE" "${CURRENT_PACKAGES_DIR}/share/libaeron/copyright" COPYONLY)
